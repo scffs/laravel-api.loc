@@ -2,20 +2,21 @@
 
 1. Склонируйте репозиторий
 
-```sh 
-cd domains && git clone https://github.com/scffs/laravel-api.loc
+```shell
+git clone https://github.com/kopchan/laravel-api.loc.git 
 ```
 
-2. Перейдите в папку с проектом и установите composer-зависимости
+2. Перейдите в папку с проектом и скачайте зависимости
 
 ```shell
-cd laravel-api.loc && composer install
+cd laravel-api.loc
+composer i
 ```
 
-3. Скопируйте `.env.example` в `.env`
+3. Скопируйте файл конфигурации .env.example в .env
 
 ```shell
-copy .env.example .env
+cp .env.example .env
 ```
 
 4. Сгенерируйте ключ шифрования
@@ -24,39 +25,42 @@ copy .env.example .env
 php artisan key:generate
 ```
 
-5. Измени файл .env (пример для MySQL)
+5. Изменить файл конфигурации .env (пример для БД MySQL)
 
-```dotenv
+```env
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=db_name
-DB_USERNAME=db_user_name
-DB_PASSWORD=db_password
+DB_HOST=127.0.0.1   # Домен/IP_СУБД
+DB_PORT=3306        # Порт_СУБД
+DB_DATABASE=laravel # Имя_БД
+DB_USERNAME=root    # Логин_пользователя
+DB_PASSWORD=        # Пароль_пользователя
 
-SESSION_DRIVER=file
-```
- 
-## Создание проекта
-```sh 
-cd domains && mkdir laravel-api.loc && cd laravel-api.loc
+SESSION_DRIVER=file # Использовать файловый драйвер сессий
 ```
 
-```sh 
+6. Выполнить миграции для создания таблиц
+
+```shell
+php artisan migrate
+```
+
+## Пустой проект
+
+Создан в OSPanel следующими командами:
+
+```shell
+cd domains
 composer self-update
+composer create laravel/laravel laravel-api.loc
+cd laravel-api.loc
+php artisan install:api
+php artisan config:publish cors
+php artisan storage:link
 ```
 
-```sh
-composer create-project laravel/laravel .
-```
+В корне проекта создан файл .htaccess
 
-```sh
-php artisan install:api && php artisan config publish:cors && php artisan storage:link
-```
-
-В корне создан .htaccess
-
-```
-RewriteEngine On
+```apacheconf
+RewriteEngine on
 RewriteRule ^(.*)$ public/$1 [L]
 ```
