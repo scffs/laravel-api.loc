@@ -7,6 +7,6 @@ Route
   ::controller(AuthController::class)
   ->group(function () {
     Route::post('signup', 'signup');
-    Route::post('login', 'login');
+    Route::post('login', 'login')->name('login');
     Route::post('logout', 'logout')->middleware('auth:api');
   });

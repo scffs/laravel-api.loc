@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\ApiException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     apiPrefix: 'api',
   )
   ->withMiddleware(function (Middleware $middleware) {
-    //
+    $middleware->redirectGuestsTo(fn() => throw new ApiException(401, 'You are not allowed to access this page.'));
   })
   ->withExceptions(function (Exceptions $exceptions) {
     //
